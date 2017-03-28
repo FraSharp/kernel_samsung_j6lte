@@ -634,7 +634,7 @@ KBUILD_CFLAGS	+= $(call cc-option,-fno-PIE)
 KBUILD_AFLAGS	+= $(call cc-option,-fno-PIE)
 
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
-KBUILD_CFLAGS	+= -Os -g0 -pipe
+KBUILD_CFLAGS	+= $(call cc-option,-Oz,-Os)
 else
 KBUILD_CFLAGS	+= -O3 -g0 -pipe
 endif
