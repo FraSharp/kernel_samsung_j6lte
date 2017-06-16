@@ -4535,20 +4535,9 @@ static int ftrace_cmp_ips(const void *a, const void *b)
 	return 0;
 }
 
-static void ftrace_swap_ips(void *a, void *b, int size)
-{
-	unsigned long *ipa = a;
-	unsigned long *ipb = b;
-	unsigned long t;
-
-	t = *ipa;
-	*ipa = *ipb;
-	*ipb = t;
-}
-
-static int ftrace_process_locs(struct module *mod,
-			       unsigned long *start,
-			       unsigned long *end)
+static int __norecordmcount ftrace_process_locs(struct module *mod,
+						unsigned long *start,
+						unsigned long *end)
 {
 	struct ftrace_page *start_pg;
 	struct ftrace_page *pg;
