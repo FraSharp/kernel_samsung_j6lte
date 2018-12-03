@@ -89,6 +89,9 @@ SECTIONS
 		EXIT_CALL
 		*(.discard)
 		*(.discard.*)
+		*(.interp .dynamic)
+		*(.dynsym .dynstr .hash .gnu.hash)
+		*(.eh_frame)
 	}
 
 	. = PAGE_OFFSET + TEXT_OFFSET;
@@ -178,6 +181,21 @@ SECTIONS
 	}
 	.altinstr_replacement : {
 		KEEP(*(.altinstr_replacement))
+	}
+	.rela.dyn : ALIGN(8) {
+		__reloc_start = .;
+		*(.rela .rela*)
+		__reloc_end = .;
+	}
+	.dynsym : ALIGN(8) {
+		__dynsym_start = .;
+		*(.dynsym)
+	}
+	.dynstr : {
+		*(.dynstr)
+	}
+	.hash : {
+		*(.hash)
 	}
 
 	. = ALIGN(PAGE_SIZE);
