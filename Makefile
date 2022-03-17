@@ -405,8 +405,7 @@ KBUILD_CPPFLAGS := -D__KERNEL__
 KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common \
 		   -Werror-implicit-function-declaration \
-		   -Wno-format-security \
-		   -Werror \
+		   -Wno-format-security -w \
 		   -std=gnu89
 
 KBUILD_AFLAGS_KERNEL :=
@@ -722,6 +721,7 @@ else
 # Use make W=1 to enable them (see scripts/Makefile.build)
 KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable)
 KBUILD_CFLAGS += $(call cc-disable-warning, unused-const-variable)
+KBUILD_CFLAGS += $(call cc-disable-warning, array-bounds)
 endif
 
 ifdef CONFIG_FRAME_POINTER
