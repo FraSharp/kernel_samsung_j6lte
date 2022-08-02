@@ -39,7 +39,7 @@ void *module_alloc(unsigned long size)
 				    GFP_KERNEL, PAGE_KERNEL_EXEC, NUMA_NO_NODE,
 				    __builtin_return_address(0));
 }
-void module_memfree(void *module_region)
+void __weak module_free(struct module *mod, void *module_region)
 {
 	vfree(module_region);
 }
