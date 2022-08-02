@@ -59,7 +59,6 @@ module_param(enable_bcmdhd4359_wl, bool, 0644);
 
 static bool enable_bluedroid_timer_wl = true;
 module_param(enable_bluedroid_timer_wl, bool, 0644);
->>>>>>> ac11e34c9055 (Wakelock Switches)
 
 /*
  * If set, the suspend/hibernate code will abort transitions to a sleep state
