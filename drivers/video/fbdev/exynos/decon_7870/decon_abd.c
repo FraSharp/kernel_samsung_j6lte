@@ -430,6 +430,7 @@ static void decon_abd_print_fto(struct seq_file *m, struct abd_trace *trace)
 	}
 }
 
+#ifdef CONFIG_DECON_EVENT_LOG
 static void decon_abd_print_ss_log(struct seq_file *m)
 {
 	unsigned int log_max = 200, i, idx;
@@ -561,6 +562,19 @@ static const struct file_operations decon_abd_fops = {
 	.release = seq_release,
 	.open = decon_abd_open,
 };
+#else
+static void decon_abd_print_ss_log(struct seq_file *m)
+{ }
+static void decon_abd_print_str(struct seq_file *m)
+{ }
+static void decon_abd_print_bit(struct seq_file *m, struct abd_trace *trace)
+{ }
+static int decon_abd_show(struct seq_file *m, void *unused)
+{
+	return 0;
+}
+#endif
+
 
 static int decon_abd_reboot_notifier(struct notifier_block *this,
 		unsigned long code, void *unused)
@@ -788,7 +802,9 @@ static void decon_abd_register(struct decon_device *decon)
 	abd->u_lcdon.name = abd->f_lcdon.name = "lcdon";
 	abd->u_event.name = abd->f_event.name = abd->b_event.name = "event";
 
+#if defined(CONFIG_DECON_EVENT_LOG) && defined(CONFIG_DEBUG_FS)
 	debugfs_create_file("debug", 0444, decon->debug_root, decon, &decon_abd_fops);
+#endif
 
 	abd->reboot_notifier.notifier_call = decon_abd_reboot_notifier;
 	register_reboot_notifier(&abd->reboot_notifier);
