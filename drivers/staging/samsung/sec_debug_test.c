@@ -39,9 +39,11 @@ static void simulate_DFREE(char *arg);
 static void simulate_DREF(char *arg);
 static void simulate_MCRPT(char *arg);
 static void simulate_LOMEM(char *arg);
+#ifdef CONFIG_LOCKUP_DETECTOR
 static void simulate_SOFT_LOCKUP(char *arg);
 static void simulate_HARD_LOCKUP(char *arg);
 static void simulate_SPIN_LOCKUP(char *arg);
+#endif
 static void simulate_PC_ABORT(char *arg);
 static void simulate_SP_ABORT(char *arg);
 static void simulate_JUMP_ZERO(char *arg);
@@ -66,9 +68,11 @@ enum {
 	FORCE_DANGLING_REFERENCE,	/* DREF */
 	FORCE_MEMORY_CORRUPTION,	/* MCRPT */
 	FORCE_LOW_MEMEMORY,		/* LOMEM */
+#ifdef CONFIG_LOCKUP_DETECTOR
 	FORCE_SOFT_LOCKUP,		/* SOFT LOCKUP */
 	FORCE_HARD_LOCKUP,		/* HARD LOCKUP */
 	FORCE_SPIN_LOCKUP,		/* SPIN LOCKUP */
+#endif
 	FORCE_PC_ABORT,			/* PC ABORT */
 	FORCE_SP_ABORT,			/* SP ABORT */
 	FORCE_JUMP_ZERO,		/* JUMP TO ZERO */
@@ -105,9 +109,11 @@ struct force_error force_error_vector = {
 		{"danglingref",	&simulate_DREF},
 		{"memcorrupt",	&simulate_MCRPT},
 		{"lowmem",	&simulate_LOMEM},
+#ifdef CONFIG_LOCKUP_DETECTOR
 		{"softlockup",	&simulate_SOFT_LOCKUP},
 		{"hardlockup",	&simulate_HARD_LOCKUP},
 		{"spinlockup",	&simulate_SPIN_LOCKUP},
+#endif
 		{"pcabort",	&simulate_PC_ABORT},
 		{"spabort",	&simulate_SP_ABORT},
 		{"jumpzero",	&simulate_JUMP_ZERO},
@@ -288,6 +294,7 @@ static void simulate_LOMEM(char *arg)
 	pr_crit("Allocated %d KB!\n", i * 128);
 }
 
+#ifdef CONFIG_LOCKUP_DETECTOR
 static void simulate_SOFT_LOCKUP(char *arg)
 {
 	pr_crit("%s()\n", __func__);
@@ -327,6 +334,7 @@ static void simulate_SPIN_LOCKUP(char *arg)
 	spin_lock(&sec_debug_test_lock);
 	spin_lock(&sec_debug_test_lock);
 }
+#endif
 
 static void simulate_PC_ABORT(char *arg)
 {
